@@ -1,15 +1,19 @@
 package com.example.appfirebase.pages
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,12 +23,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.appfirebase.AuthState
 import com.example.appfirebase.AuthViewModel
+import com.example.appfirebase.ui.theme.Purple40
 
 @Composable
 fun SignupPage(
@@ -56,11 +66,13 @@ fun SignupPage(
     }
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color(40, 40, 40)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Signup Page", fontSize = 32.sp)
+        Text(text = "Página de Registro", fontSize = 32.sp, color = Purple40)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -71,7 +83,25 @@ fun SignupPage(
             },
             label = {
                 Text(text = "Email")
-            }
+            },
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Purple40,
+                unfocusedLabelColor = Purple40,
+                unfocusedContainerColor = Color(40, 40, 40),
+                unfocusedTextColor = Color.White,
+
+                focusedIndicatorColor = Purple40,
+                focusedLabelColor = Purple40,
+                focusedContainerColor = Color(40, 40, 40),
+                focusedTextColor = Color.White,
+
+                cursorColor = Purple40
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Text
+            ),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -83,16 +113,36 @@ fun SignupPage(
             },
             label = {
                 Text(text = "Password")
-            }
+            },
+            visualTransformation = PasswordVisualTransformation(),
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Purple40,
+                unfocusedLabelColor = Purple40,
+                unfocusedContainerColor = Color(40, 40, 40),
+                unfocusedTextColor = Color.White,
+
+                focusedIndicatorColor = Purple40,
+                focusedLabelColor = Purple40,
+                focusedContainerColor = Color(40, 40, 40),
+                focusedTextColor = Color.White,
+
+                cursorColor = Purple40
+            ),
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Password
+            ),
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {
+        Button(onClick = {
                 authViewModel.signup(email, password)
-            }, enabled = authState.value != AuthState.Loading
+        },
+            colors = ButtonDefaults.buttonColors(containerColor = Purple40),
+            enabled = authState.value != AuthState.Loading
         ) {
-            Text(text = "Create account")
+            Text(text = "Criar conta", color = Color.White)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -100,7 +150,7 @@ fun SignupPage(
         TextButton(onClick = {
             navController.navigate("login")
         }) {
-            Text(text = "Already have an account, Login")
+            Text(text = "Já possui uma conta? Faça Login", color = Purple40)
         }
 
     }
